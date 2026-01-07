@@ -6,9 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
@@ -123,37 +121,39 @@ const Admin = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
-        <Card className="w-full max-w-md mx-4">
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Card className="w-full max-w-md mx-4 border-border">
           <CardHeader>
-            <CardTitle className="text-3xl text-center flex items-center justify-center gap-2">
-              <Icon name="Lock" size={28} />
-              Вход в админ-панель
+            <CardTitle className="text-2xl text-center flex items-center justify-center gap-2">
+              <Icon name="Lock" size={24} />
+              Админ-панель
             </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <Label htmlFor="username">Логин</Label>
+                <Label htmlFor="username" className="text-sm">Логин</Label>
                 <Input
                   id="username"
                   placeholder="Введите логин"
                   value={loginForm.username}
                   onChange={(e) => setLoginForm(prev => ({ ...prev, username: e.target.value }))}
+                  className="mt-1"
                 />
               </div>
               <div>
-                <Label htmlFor="password">Пароль</Label>
+                <Label htmlFor="password" className="text-sm">Пароль</Label>
                 <Input
                   id="password"
                   type="password"
                   placeholder="Введите пароль"
                   value={loginForm.password}
                   onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
+                  className="mt-1"
                 />
               </div>
-              <Button type="submit" className="w-full" size="lg">
-                <Icon name="LogIn" size={18} className="mr-2" />
+              <Button type="submit" className="w-full">
+                <Icon name="LogIn" size={16} className="mr-2" />
                 Войти
               </Button>
             </form>
@@ -165,85 +165,85 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-card border-b shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-              <span className="text-2xl">🏺</span>
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded bg-primary/10 flex items-center justify-center">
+                <Icon name="Settings" size={20} />
+              </div>
+              <h1 className="text-xl font-bold">Админ-панель</h1>
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-primary">Админ-панель</h1>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => navigate('/')}>
-              <Icon name="Home" size={18} className="mr-2" />
-              На сайт
-            </Button>
-            <Button variant="destructive" onClick={handleLogout}>
-              <Icon name="LogOut" size={18} className="mr-2" />
-              Выйти
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
+                <Icon name="Home" size={16} className="mr-2" />
+                Сайт
+              </Button>
+              <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <Icon name="LogOut" size={16} className="mr-2" />
+                Выйти
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-6">
         <Tabs defaultValue="orders" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-            <TabsTrigger value="orders" className="text-lg">
-              <Icon name="ShoppingBag" size={18} className="mr-2" />
-              Заказы
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="orders">
+              <Icon name="ShoppingBag" size={16} className="mr-2" />
+              Заказы ({orders.length})
             </TabsTrigger>
-            <TabsTrigger value="products" className="text-lg">
-              <Icon name="Package" size={18} className="mr-2" />
-              Товары
+            <TabsTrigger value="products">
+              <Icon name="Package" size={16} className="mr-2" />
+              Товары ({products.length})
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="orders">
-            <Card>
+            <Card className="border-border">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Icon name="ClipboardList" size={24} />
-                  Список заказов ({orders.length})
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Icon name="ClipboardList" size={20} />
+                  Список заказов
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 {orders.length === 0 ? (
                   <div className="text-center py-12 text-muted-foreground">
-                    <Icon name="Inbox" size={48} className="mx-auto mb-4 opacity-50" />
+                    <Icon name="Inbox" size={48} className="mx-auto mb-4 opacity-30" />
                     <p>Заказов пока нет</p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {orders.map((order, index) => (
-                      <Card key={index} className="border-l-4 border-l-primary">
-                        <CardContent className="pt-4">
-                          <div className="flex justify-between items-start mb-4">
-                            <div>
-                              <h3 className="font-semibold text-lg">{order.customer.name}</h3>
-                              <p className="text-sm text-muted-foreground">{order.customer.phone}</p>
-                              <p className="text-sm text-muted-foreground">{order.customer.address}</p>
-                            </div>
-                            <div className="text-right">
-                              <Badge variant="secondary" className="mb-2">
-                                {new Date(order.date).toLocaleDateString('ru-RU')}
-                              </Badge>
-                              <p className="text-xl font-bold text-primary">{order.total} ₽</p>
-                            </div>
+                      <div key={index} className="p-4 rounded-lg bg-secondary/20 border border-border">
+                        <div className="flex justify-between items-start mb-3">
+                          <div>
+                            <h3 className="font-semibold">{order.customer.name}</h3>
+                            <p className="text-sm text-muted-foreground">{order.customer.phone}</p>
+                            <p className="text-sm text-muted-foreground">{order.customer.address}</p>
                           </div>
-                          <div className="border-t pt-3">
-                            <p className="font-semibold mb-2">Состав заказа:</p>
-                            <ul className="space-y-1">
-                              {order.items.map((item, i) => (
-                                <li key={i} className="text-sm flex justify-between">
-                                  <span>{item.name} x{item.quantity}</span>
-                                  <span>{item.price * item.quantity} ₽</span>
-                                </li>
-                              ))}
-                            </ul>
+                          <div className="text-right">
+                            <Badge variant="secondary" className="mb-1">
+                              {new Date(order.date).toLocaleDateString('ru-RU')}
+                            </Badge>
+                            <p className="text-lg font-bold text-primary">{order.total} ₽</p>
                           </div>
-                        </CardContent>
-                      </Card>
+                        </div>
+                        <div className="border-t border-border pt-3">
+                          <p className="font-medium text-sm mb-2">Состав заказа:</p>
+                          <ul className="space-y-1">
+                            {order.items.map((item, i) => (
+                              <li key={i} className="text-sm flex justify-between text-muted-foreground">
+                                <span>{item.name} x{item.quantity}</span>
+                                <span>{item.price * item.quantity} ₽</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}
@@ -253,37 +253,39 @@ const Admin = () => {
 
           <TabsContent value="products">
             <div className="grid gap-6 lg:grid-cols-2">
-              <Card>
+              <Card className="border-border">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Icon name="Plus" size={24} />
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <Icon name="Plus" size={20} />
                     Добавить товар
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-3">
                   <div>
-                    <Label htmlFor="productName">Название</Label>
+                    <Label htmlFor="productName" className="text-sm">Название</Label>
                     <Input
                       id="productName"
                       placeholder="Название товара"
                       value={newProduct.name}
                       onChange={(e) => setNewProduct(prev => ({ ...prev, name: e.target.value }))}
+                      className="mt-1"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="productPrice">Цена (₽)</Label>
+                    <Label htmlFor="productPrice" className="text-sm">Цена (₽)</Label>
                     <Input
                       id="productPrice"
                       type="number"
                       placeholder="2500"
                       value={newProduct.price}
                       onChange={(e) => setNewProduct(prev => ({ ...prev, price: e.target.value }))}
+                      className="mt-1"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="productCategory">Категория</Label>
+                    <Label htmlFor="productCategory" className="text-sm">Категория</Label>
                     <Select value={newProduct.category} onValueChange={(val) => setNewProduct(prev => ({ ...prev, category: val }))}>
-                      <SelectTrigger>
+                      <SelectTrigger className="mt-1">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -294,55 +296,54 @@ const Admin = () => {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="productImage">URL изображения</Label>
+                    <Label htmlFor="productImage" className="text-sm">URL изображения</Label>
                     <Input
                       id="productImage"
                       placeholder="https://example.com/image.jpg"
                       value={newProduct.image}
                       onChange={(e) => setNewProduct(prev => ({ ...prev, image: e.target.value }))}
+                      className="mt-1"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="productDescription">Описание</Label>
+                    <Label htmlFor="productDescription" className="text-sm">Описание</Label>
                     <Textarea
                       id="productDescription"
                       placeholder="Описание товара"
                       value={newProduct.description}
                       onChange={(e) => setNewProduct(prev => ({ ...prev, description: e.target.value }))}
+                      className="mt-1"
+                      rows={3}
                     />
                   </div>
-                  <Button onClick={handleAddProduct} className="w-full" size="lg">
-                    <Icon name="Plus" size={18} className="mr-2" />
+                  <Button onClick={handleAddProduct} className="w-full">
+                    <Icon name="Plus" size={16} className="mr-2" />
                     Добавить товар
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-border">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Icon name="List" size={24} />
-                    Текущие товары ({products.length})
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <Icon name="List" size={20} />
+                    Текущие товары
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3 max-h-[600px] overflow-y-auto">
+                  <div className="space-y-2 max-h-[600px] overflow-y-auto">
                     {products.map(product => (
-                      <Card key={product.id} className="border">
-                        <CardContent className="pt-4">
-                          <div className="flex gap-3">
-                            <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded" />
-                            <div className="flex-1">
-                              <h4 className="font-semibold">{product.name}</h4>
-                              <p className="text-sm text-muted-foreground">{product.description}</p>
-                              <p className="text-lg font-bold text-primary mt-1">{product.price} ₽</p>
-                            </div>
-                            <Button variant="destructive" size="sm" onClick={() => handleDeleteProduct(product.id)}>
-                              <Icon name="Trash2" size={16} />
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
+                      <div key={product.id} className="flex gap-3 p-3 rounded-lg bg-secondary/20 border border-border">
+                        <img src={product.image} alt={product.name} className="w-14 h-14 object-cover rounded" />
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-sm truncate">{product.name}</h4>
+                          <p className="text-xs text-muted-foreground truncate">{product.description}</p>
+                          <p className="text-sm font-bold text-primary mt-1">{product.price} ₽</p>
+                        </div>
+                        <Button variant="ghost" size="sm" onClick={() => handleDeleteProduct(product.id)} className="text-destructive">
+                          <Icon name="Trash2" size={16} />
+                        </Button>
+                      </div>
                     ))}
                   </div>
                 </CardContent>
